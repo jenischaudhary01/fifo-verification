@@ -1,42 +1,88 @@
-# FIFO Verification in SystemVerilog
+# FIFO Verification
 
-**Status: work in progress.** The FIFO design (RTL) is written. The SystemVerilog testbench is being built step by step while I learn verification. This README is updated as each part is finished.
+Verilog FIFO designs with SystemVerilog verification environments.
 
-## Design under test (`fifo.v`)
-A synchronous FIFO written in Verilog.
+| Design | RTL | Testbench |
+|---|---|---|
+| Synchronous FIFO (`sync_fifo/`) | Done | In progress |
+| Asynchronous FIFO (`async_fifo/`) | Done | Planned |
 
-- Parameterized width and depth (default: 8-bit data, 32 entries; depth must be a power of 2)
-- Separate write and read pointers, plus an occupancy counter that drives the `full` and `empty` flags
-- Synchronous reset
-- Registered read: read data appears one clock cycle after an accepted read
-- A write while full and a read while empty are ignored
+## Synchronous FIFO
 
-## Planned verification environment
-`generator -> mailbox -> driver -> DUT -> monitor -> mailbox -> scoreboard`
+- Parameterized: 8-bit data width, 32 entries (default)
+- Counter-based full/empty tracking
+- Registered read output
 
-- **Transaction:** randomized write enable, read enable and data, with constraints
-- **Generator, driver, monitor:** connected through mailboxes
-- **Scoreboard:** queue-based reference model that checks read data (accounting for the one-cycle read latency) and the full/empty flags
-- **Assertions (SVA):** flag and protocol checks
-- **Functional coverage:** covergroups for FIFO states and operations, including write-while-full and read-while-empty
+### Verification environment (class-based, constrained-random)
 
-## Progress
-- [x] FIFO design (`fifo.v`)
-- [ ] Interface with clocking blocks
-- [ ] Transaction class (randomization and constraints)
-- [ ] Generator and driver
-- [ ] Monitor
-- [ ] Scoreboard with reference model
-- [ ] Assertions (SVA)
+```
+ Generator --> Driver --> DUT --> Monitor --> Scoreboard
+    (mailbox)                        (mailbox)
+```
+
+Components:
+- [ ] Interface (clock, reset, DUT signals)
+- [ ] Transaction class (randomized write/read enable and data)
+- [ ] Generator (creates randomized transactions)
+- [ ] Driver (drives transactions onto the DUT interface)
+- [ ] Monitor (samples DUT inputs and outputs)
+- [ ] Scoreboard (compares DUT output against a reference queue)
+- [ ] Environment class connecting everything through mailboxes
+- [ ] Top-level testbench (clock, reset, DUT instance)
+
+Scenarios:
+- [ ] Reset behavior
+- [ ] Write until full, extra writes ignored
+- [ ] Read until empty, extra reads ignored
+- [ ] Simultaneous read and write
+- [ ] Pointer wraparound
+- [ ] Constrained-random regression
+
+Checks and coverage:
+- [ ] Assertion: no write accepted when full
+- [ ] Assertion: no read accepted when empty
+- [ ] Functional coverage (full, empty, wraparound, simultaneous read/write)
+
+## Asynchronous FIFO
+
+- Separate write and read clocks
+- Gray-code read/write pointers (one bit changes per increment)
+- 2-flop synchronizers move each pointer into the other clock domain
+- Empty: read gray pointer equals synchronized write pointer (read domain)
+- Full: top two gray bits differ and remaining bits match the synchronized read pointer (write domain)
+- Extra pointer bit distinguishes full from empty
+
+Testbench (planned):
+- [ ] Dual-clock setup with unrelated clock ratios (for example 10 ns / 7 ns)
+- [ ] Fast write / slow read
+- [ ] Slow write / fast read
+- [ ] Write until full, read until empty
+- [ ] Pointer wraparound (at least two laps)
+- [ ] Scoreboard checking data order
+- [ ] Assertion: gray pointer changes by at most one bit per clock
 - [ ] Functional coverage
-- [ ] Directed corner-case tests (fill completely, drain completely, read at empty, write at full, simultaneous read and write)
-- [ ] UVM version
+
+## Repository structure
+
+```
+fifo-verification/
+├── sync_fifo/
+│   ├── fifo.v
+│   └── tb/
+├── async_fifo/
+│   └── fifo_async.v
+└── README.md
+```
+
+## How to run
+
+```
+<simulator command you use>
+```
+
+Waveforms viewed in GTKWave / Vivado.
 
 ## Tools
-Verilog (design), SystemVerilog (testbench), EDA Playground (simulator to be added once chosen)
 
-## Results
-Will be added after the testbench is running: transactions run, errors found, coverage percentage and a waveform screenshot.
+Verilog, SystemVerilog, <simulator>, GTKWave
 
-## What I'm learning
-Notes on problems I hit and how I fixed them will be added here.
