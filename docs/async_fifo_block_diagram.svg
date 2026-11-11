@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 680" width="1080" height="680" font-family="Arial, Helvetica, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#222"/></marker>
+    <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2B6CB0"/></marker>
+    <marker id="aO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#C05621"/></marker>
+  </defs>
+
+  <rect width="1080" height="680" fill="#ffffff"/>
+
+  <text x="540" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#111">Asynchronous FIFO (width 8, depth 32)</text>
+  <text x="540" y="54" text-anchor="middle" font-size="13" fill="#444">Gray-code pointers with 2-flop synchronizers</text>
+
+  <!-- Clock domains -->
+  <rect x="90" y="70" width="300" height="530" rx="8" fill="#EAF2FB" stroke="#2B6CB0" stroke-width="2"/>
+  <rect x="650" y="70" width="300" height="530" rx="8" fill="#FDF1E6" stroke="#C05621" stroke-width="2"/>
+  <text x="240" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#2B6CB0">WRITE DOMAIN (wclk, w_rst)</text>
+  <text x="800" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#C05621">READ DOMAIN (rclk, r_rst)</text>
+
+  <!-- Memory -->
+  <rect x="420" y="140" width="200" height="150" rx="6" fill="#E6F4EA" stroke="#2F855A" stroke-width="2"/>
+  <text x="520" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Dual-port memory</text>
+  <text x="520" y="218" text-anchor="middle" font-size="13" fill="#111">mem[0:31]</text>
+  <text x="520" y="238" text-anchor="middle" font-size="12" fill="#333">32 entries x 8 bits</text>
+  <text x="520" y="262" text-anchor="middle" font-size="11" fill="#555">write on wclk, read on rclk</text>
+
+  <!-- Data in / out -->
+  <path d="M62 112 H470 V138" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="5" y="116" font-size="12" fill="#111">din[7:0]</text>
+  <path d="M570 140 V112 H1005" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="1010" y="116" font-size="12" fill="#111">dout[7:0]</text>
+
+  <!-- ===== WRITE SIDE ===== -->
+  <!-- w_en -->
+  <path d="M55 152 H103" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="8" y="156" font-size="12" fill="#111">w_en</text>
+
+  <rect x="105" y="125" width="130" height="55" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="170" y="148" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">b_wrt [5:0]</text>
+  <text x="170" y="166" text-anchor="middle" font-size="11" fill="#444">binary write pointer</text>
+
+  <!-- b_wrt to memory address and to btg -->
+  <path d="M235 152 H418" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="372" y="170" text-anchor="middle" font-size="11" fill="#333">waddr[4:0]</text>
+  <circle cx="315" cy="152" r="3.5" fill="#222"/>
+  <path d="M315 152 V248" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="255" y="250" width="120" height="50" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="315" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">btg a1</text>
+  <text x="315" y="288" text-anchor="middle" font-size="11" fill="#444">binary to gray</text>
+
+  <!-- full logic -->
+  <rect x="105" y="250" width="130" height="70" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="170" y="278" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">full logic</text>
+  <text x="170" y="296" text-anchor="middle" font-size="11" fill="#444">g_wrt vs sy_rd</text>
+  <path d="M255 275 H237" fill="none" stroke="#2B6CB0" stroke-width="2" marker-end="url(#aB)"/>
+  <path d="M103 285 H55" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="8" y="289" font-size="12" font-weight="bold" fill="#111">full</text>
+
+  <!-- read pointer synchronizer (wclk) -->
+  <rect x="155" y="460" width="180" height="65" rx="4" fill="none" stroke="#888" stroke-dasharray="5,4"/>
+  <rect x="270" y="470" width="55" height="45" rx="3" fill="#FFF8DB" stroke="#B7791F" stroke-width="1.5"/>
+  <text x="297" y="498" text-anchor="middle" font-size="13" fill="#111">qr</text>
+  <rect x="165" y="470" width="55" height="45" rx="3" fill="#FFF8DB" stroke="#B7791F" stroke-width="1.5"/>
+  <text x="192" y="498" text-anchor="middle" font-size="13" fill="#111">sy_rd</text>
+  <path d="M270 492 H222" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M192 470 V322" fill="none" stroke="#C05621" stroke-width="2" marker-end="url(#aO)"/>
+  <text x="245" y="545" text-anchor="middle" font-size="11" fill="#444">2-flop synchronizer (wclk)</text>
+
+  <!-- ===== READ SIDE ===== -->
+  <!-- r_en -->
+  <path d="M985 152 H937" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="990" y="156" font-size="12" fill="#111">r_en</text>
+
+  <rect x="805" y="125" width="130" height="55" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="870" y="148" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">b_rd [5:0]</text>
+  <text x="870" y="166" text-anchor="middle" font-size="11" fill="#444">binary read pointer</text>
+
+  <path d="M805 152 H622" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="668" y="170" text-anchor="middle" font-size="11" fill="#333">raddr[4:0]</text>
+  <circle cx="725" cy="152" r="3.5" fill="#222"/>
+  <path d="M725 152 V248" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="665" y="250" width="120" height="50" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="725" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">btg a2</text>
+  <text x="725" y="288" text-anchor="middle" font-size="11" fill="#444">binary to gray</text>
+
+  <!-- empty logic -->
+  <rect x="805" y="250" width="130" height="70" rx="4" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="870" y="278" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">empty logic</text>
+  <text x="870" y="296" text-anchor="middle" font-size="11" fill="#444">g_rd vs sy_wr</text>
+  <path d="M785 275 H803" fill="none" stroke="#C05621" stroke-width="2" marker-end="url(#aO)"/>
+  <path d="M935 285 H985" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <text x="990" y="289" font-size="12" font-weight="bold" fill="#111">empty</text>
+
+  <!-- write pointer synchronizer (rclk) -->
+  <rect x="705" y="460" width="180" height="65" rx="4" fill="none" stroke="#888" stroke-dasharray="5,4"/>
+  <rect x="715" y="470" width="55" height="45" rx="3" fill="#FFF8DB" stroke="#B7791F" stroke-width="1.5"/>
+  <text x="742" y="498" text-anchor="middle" font-size="13" fill="#111">qw</text>
+  <rect x="820" y="470" width="55" height="45" rx="3" fill="#FFF8DB" stroke="#B7791F" stroke-width="1.5"/>
+  <text x="847" y="498" text-anchor="middle" font-size="13" fill="#111">sy_wr</text>
+  <path d="M770 492 H818" fill="none" stroke="#222" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M847 470 V322" fill="none" stroke="#2B6CB0" stroke-width="2" marker-end="url(#aB)"/>
+  <text x="795" y="545" text-anchor="middle" font-size="11" fill="#444">2-flop synchronizer (rclk)</text>
+
+  <!-- ===== CLOCK DOMAIN CROSSINGS ===== -->
+  <path d="M315 300 V400 H742 V468" fill="none" stroke="#2B6CB0" stroke-width="2.5" marker-end="url(#aB)"/>
+  <text x="335" y="392" font-size="12" font-weight="bold" fill="#2B6CB0">g_wrt (gray): wclk to rclk</text>
+  <path d="M725 300 V430 H297 V468" fill="none" stroke="#C05621" stroke-width="2.5" marker-end="url(#aO)"/>
+  <text x="335" y="448" font-size="12" font-weight="bold" fill="#C05621">g_rd (gray): rclk to wclk</text>
+
+  <!-- Notes -->
+  <text x="20" y="627" font-size="12" fill="#222">Pointers are 6 bits: 5 address bits + 1 wrap bit. Memory address = pointer[4:0].</text>
+  <text x="20" y="647" font-size="12" fill="#222">full  = (g_wrt[5] != sy_rd[5]) &amp;&amp; (g_wrt[4] != sy_rd[4]) &amp;&amp; (g_wrt[3:0] == sy_rd[3:0])   (write domain)</text>
+  <text x="20" y="667" font-size="12" fill="#222">empty = (g_rd == sy_wr)   (read domain)</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTowOTY4YWY4Mi1lOTNkLTQ2MDUtYmI0Ni1mYzM3N2U2OGYzMWUAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaNCrPmlvYi4hBusSIkmKnR0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpmMjdiNTgzZS0wMjg2LTRhODEtYjgxNy0zMjlmMmVhZjJlOTZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoF+asg5ioPUh4gkWWq0nX9QAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggxR1tk8XWilFHGF/PT1zMkblBOpeYdCokraCRTG6o3jykZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaGras4T7sxMQN9WtR0Gy5hUAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIIe+CPXpxzCg0AdF8BFfwHZAwo9OA1hrHPymO3hVZuCDZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GSEUZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjA5NjhhZjgyLWU5M2QtNDYwNS1iYjQ2LWZjMzc3ZTY4ZjMxZS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjc4OTZlYjI4LTNkNGMtNDk0Ny04ZGVmLWZjZDZlNTczNTc4ZHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCDFHW2TxdaKUUcYX89PXMyRuUE6l5h0KiStoJFMbqjePKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggPesB/nwJQ/2CdQYJBToMPIKe7/CaDQz+BiXdqWafUTuiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg0KTc66fkhgZ5gi80+Sn55FOwOwZNjBiMB2vcwe/nOEN0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQASs13ZIQij45qRS1jP2GKmCGVNLlKv5cBGmNjBn9vAGEfbxi13k/kgel2P+mrzPszo8ZUeP2R4XtRIy9eqv1gU=</c2pa:manifest></metadata></svg>
